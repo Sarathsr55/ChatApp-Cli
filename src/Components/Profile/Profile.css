@@ -1,0 +1,80 @@
+.profile_about{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    border-top: 3px solid rgba(173, 169, 169, 0.258);
+}
+.profile_close{
+    cursor: pointer;
+}
+.pro_about_cont{
+    padding: 15px;
+}
+.pro_about_cont h3{
+    margin: 2px 0 2px 0;
+    text-align: left;
+    color: rgb(101, 101, 101);
+}
+.pro_about_cont p{
+    margin: 4px 0 4px 0;
+    color: gray;
+    font-size: 14px;
+}
+.media{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-top: 3px solid rgba(173, 169, 169, 0.258);
+}
+.media_content{
+    padding: 15px;
+}
+.media_content h3{
+    margin: 2px 0 2px 0;
+    color: rgb(101, 101, 101);
+    text-align: left;
+}
+.media_content p{
+    text-align: center;
+}
+.own_profile_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profile_img{
+    position: relative;
+}
+.profile_option{
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    padding: 10px 0;
+    border-radius: 10px;
+    top: 60%;
+    left: -25px;
+}
+.profile_option p{
+    text-align: left;
+    cursor: pointer;
+    padding: 15px 25px ;
+    margin: 0;
+}
+.profile_option p:hover{
+    background-color: rgba(182, 182, 182, 0.153);
+}
+.custom_file_upload{
+    position: relative;
+}
+.popup{
+    position: absolute;
+}
+.off{
+    display: none;
+    position: absolute;
+}
+.crop_bg{
+    
+}
