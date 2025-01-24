@@ -62,6 +62,7 @@ const Conversation = ({ data, currentUserId, recieveMessage, sendMessage,setRece
   }, [data])
 
 
+  
  
 
   return (
@@ -86,7 +87,7 @@ const Conversation = ({ data, currentUserId, recieveMessage, sendMessage,setRece
                 </p>
               </div>
               <div className="chat_message">
-                <p style={{ margin: '2px 0 2px 0', fontSize: 13, color:'gray' }}>{messages[messages.length - 1]?.text}</p>
+                <p style={{ margin: '2px 0 2px 0', fontSize: 13, color:'gray' }}>{messages[messages.length - 1]?.senderId === currentUserId ? 'You : ' : ''}{messages[messages.length - 1]?.text}</p>
               </div>
             </div>
             <div className="chat_time">

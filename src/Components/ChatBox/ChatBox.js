@@ -4,13 +4,13 @@ import { ChatService, MessageService, UserService } from '../../services'
 import images from '../../Constants/images'
 import Seperator from '../Seperator'
 import { IonIcon } from '@ionic/react'
-import { call, videocam, ellipsisHorizontal, happyOutline, paperPlaneOutline } from 'ionicons/icons'
+import { call, videocam, ellipsisHorizontal, happyOutline, paperPlaneOutline, arrowBackCircle, arrowUndo  } from 'ionicons/icons'
 import EmojiPicker from 'emoji-picker-react';
 import Lottie from 'react-lottie'
 import animation from '../../Constants/animation'
 
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, ownerProfile, setOwnerProfile }) => {
+const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, ownerProfile, setOwnerProfile, isMobileView, setIsChatSelected, setCurrentChat }) => {
 
     const [userData, setUserData] = useState([])
     const token = localStorage.getItem('user')
@@ -196,8 +196,22 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
 
     return (
         <div className='chat_box_container'>
-            <div className="chat_box_header" onClick={() => handleProfile()}>
-                <div className="profile_pic">
+            <div className="chat_box_header" >
+                {
+                    isMobileView?
+                    <>
+                        <div onClick={()=>{
+                            setIsChatSelected(false)
+                            setCurrentChat(null)
+                        }}>
+                <IonIcon style={{ color: '#242526', cursor: 'pointer', height: 25, width: 25 }} icon={arrowUndo} />
+                </div>
+                <Seperator width={5} />
+                    </>
+                :
+                ''
+                }
+                <div className="profile_pic" onClick={() => handleProfile()}>
                     {
                         loading ?
                             <Lottie options={defaultOptions2} height={40} width={40} />
@@ -213,7 +227,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                         </div>
                         :
                         <div style={{display:'flex',alignItems:'center'}}>
-                            <div className="user_header">
+                            <div className="user_header" onClick={() => handleProfile()}>
                                 <h4 style={{ margin: 0 }} >{userData?.username}</h4>
                                 <p style={{ margin: 0, fontSize: 12, color: 'grey' }}>{online ? 'online' : `last seen ${displayLastSeen} at ${lastSeen.time} `}</p>
                             </div>

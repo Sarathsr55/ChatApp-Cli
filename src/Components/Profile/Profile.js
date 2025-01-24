@@ -151,7 +151,7 @@ const Profile = ({ chat, currentUserId, setIsProfileOpen, ownerProfile, setOwner
   }
 
   return (
-    <div style={{ height: '100vh', overflowY: 'scroll' }}>
+    <div style={{ height: '100vh', overflowY: 'scroll',borderLeft:'1px solid rgba(173, 169, 169, 0.258)' }}>
       <ToastContainer/>
       <div className="profile_close">
         <IonIcon style={{ height: 28, width: 28, color: 'grey' }} icon={close} onClick={() => handleClose()} />

@@ -15,7 +15,7 @@ import Lottie from 'react-lottie';
 import animation from '../../Constants/animation'
 
 
-const Chat = ({ ownerProfile, setOwnerProfile }) => {
+const Chat = ({ ownerProfile, setOwnerProfile,windowWidth }) => {
 
   const { state, dispatch } = useContext(UserContext)
   const userId = state?.userData?._id
@@ -30,6 +30,8 @@ const Chat = ({ ownerProfile, setOwnerProfile }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [searchedChat, setSearchedChat] = useState(false)
   const [recentchats, setRecentChats] = useState([])
+  const [isMobileView,setIsMobileView] = useState(false)
+  const [isChatSelected,setIsChatSelected] = useState(false)
   const token = localStorage.getItem('user')
   const socket = useRef()
 
@@ -46,10 +48,24 @@ const Chat = ({ ownerProfile, setOwnerProfile }) => {
     userChats()
   }, [])
 
+  
 
+   useEffect(()=>{
+    if(windowWidth < 700){
+      setIsMobileView(true)
+    }else{
+      setIsMobileView(false)
+    }
+   },[windowWidth])
 
   useEffect(() => {
-    forceUpdate()
+    if(recieveMessage){
+      forceUpdate()
+    }
+    else{
+      forceUpdate()
+    }
+    
   }, [recieveMessage, sendMessage])
 
 
@@ -155,19 +171,32 @@ const Chat = ({ ownerProfile, setOwnerProfile }) => {
 
   }
 
-
+useEffect(()=>{
+  if(isMobileView){
+    if(currentChat){
+      setIsChatSelected(true)
+    }
+  }
+},[currentChat])
 
 
 
 
   return (
     <div className='chat_container'>
-      <div className='chat_list'>
-        <div className="header">
-          <div className="chatlist_header">
+      <div className={isChatSelected && isMobileView ? 'chat_messages_off': isMobileView? 'chat_list_mob borderless':'chat_list'}  >
+        <div className={isMobileView? "header_black" : "header"}>
+          {
+            isMobileView?
+            <div>
+
+            </div>
+            :
+            <div className="chatlist_header" >
             <h2 style={{ color: '#0bc097', margin: 0 }}>Chat App</h2>
             <IonIcon className='search_icon' style={{ height: 22, width: 22 }} icon={ellipsisVertical} />
           </div>
+          }
           <div className="searchbar">
             <input type="text" className='search_input' value={searchInput} onChange={handleSearch} />
             <Seperator width={25} />
@@ -214,15 +243,15 @@ const Chat = ({ ownerProfile, setOwnerProfile }) => {
           }
         </div>
       </div>
-      <div className="chat_messages">
+      <div className={isMobileView && !isChatSelected? "chat_messages_off":"chat_messages"}>
         {
 
           currentChat ?
-            <ChatBox chat={currentChat} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
+            <ChatBox setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={currentChat} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
             :
             searchedChat && !currentChat ?
               <div>
-                <ChatBox chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
+                <ChatBox setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
               </div>
               :
               <div>
