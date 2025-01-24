@@ -185,7 +185,7 @@ useEffect(()=>{
 
   return (
     <div className='chat_container' >
-      <div className={isChatSelected && isMobileView ? 'chat_messages_off': isMobileView? 'chat_list_mob borderless':'chat_list'}  >
+      <div className={isMobileView && ownerProfile?"chat_messages_off":isChatSelected && isMobileView ? 'chat_messages_off': isMobileView? 'chat_list_mob borderless':'chat_list'}  >
         <div className={isMobileView && !isSearchField ?'chat_messages_off':isMobileView? "header_black" : "header"}>
           {
             isMobileView?
@@ -210,7 +210,7 @@ useEffect(()=>{
           </div>
           <Seperator height={25} />
         </div>
-        <div className={isMobileView&& !isSearchField?'mob_scroll':'chats_scroll_container'} onClick={()=>setIsSearchField(false)} style={{ width: '100%' }}>
+        <div className={isMobileView&& !isSearchField?'mob_scroll': 'chats_scroll_container'} onClick={()=>setIsSearchField(false)} style={{ width: '100%' }}>
           {
             isLoading ?
               <div>
@@ -261,7 +261,7 @@ useEffect(()=>{
 
         }
       </div>
-      <div className={isProfileOpen && isMobileView?"profiles_mob" :isProfileOpen  ? "profiles" : ownerProfile ? "profiles": "display_off"}>
+      <div className={isMobileView&& ownerProfile?"profiles_mob":isProfileOpen && isMobileView?"profiles_mob" :isProfileOpen  ? "profiles" : ownerProfile ? "profiles": "display_off"}>
         <Profile isMobileView={isMobileView} chat={currentChat} currentUserId={userId} setIsProfileOpen={setIsProfileOpen} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} />
       </div>
     </div>
