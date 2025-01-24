@@ -244,7 +244,7 @@ useEffect(()=>{
           }
         </div>
       </div>
-      <div className={isMobileView && !isChatSelected? "chat_messages_off":"chat_messages"}>
+      <div className={isMobileView && !isChatSelected? "chat_messages_off":isChatSelected && isProfileOpen?'chat_messages_off':"chat_messages"}>
         {
 
           currentChat ?
@@ -261,8 +261,8 @@ useEffect(()=>{
 
         }
       </div>
-      <div className={isProfileOpen ? "profiles" : ownerProfile ? "profiles" : "display_off"}>
-        <Profile chat={currentChat} currentUserId={userId} setIsProfileOpen={setIsProfileOpen} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} />
+      <div className={isProfileOpen && isMobileView?"profiles_mob":isProfileOpen  ? "profiles" : ownerProfile ? "profiles": "display_off"}>
+        <Profile isMobileView={isMobileView} chat={currentChat} currentUserId={userId} setIsProfileOpen={setIsProfileOpen} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} />
       </div>
     </div>
   )

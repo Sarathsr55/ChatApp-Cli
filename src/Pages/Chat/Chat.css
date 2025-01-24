@@ -43,6 +43,10 @@
     height: 100vh;
     flex: 0.7;
 }
+.profiles_mob{
+    height: 100vh;
+    width: 100%;
+}
 .display_off{
     display: none;
 }
