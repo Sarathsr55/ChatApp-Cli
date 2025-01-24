@@ -15,7 +15,7 @@ import Lottie from 'react-lottie';
 import animation from '../../Constants/animation'
 
 
-const Chat = ({ ownerProfile, setOwnerProfile,windowWidth }) => {
+const Chat = ({ ownerProfile, setOwnerProfile,windowWidth, isSearchField, setIsSearchField, setIsChatHeader }) => {
 
   const { state, dispatch } = useContext(UserContext)
   const userId = state?.userData?._id
@@ -175,6 +175,7 @@ useEffect(()=>{
   if(isMobileView){
     if(currentChat){
       setIsChatSelected(true)
+      setIsChatHeader(false)
     }
   }
 },[currentChat])
@@ -183,9 +184,9 @@ useEffect(()=>{
 
 
   return (
-    <div className='chat_container'>
+    <div className='chat_container' >
       <div className={isChatSelected && isMobileView ? 'chat_messages_off': isMobileView? 'chat_list_mob borderless':'chat_list'}  >
-        <div className={isMobileView? "header_black" : "header"}>
+        <div className={isMobileView && !isSearchField ?'chat_messages_off':isMobileView? "header_black" : "header"}>
           {
             isMobileView?
             <div>
@@ -197,7 +198,7 @@ useEffect(()=>{
             <IonIcon className='search_icon' style={{ height: 22, width: 22 }} icon={ellipsisVertical} />
           </div>
           }
-          <div className="searchbar">
+          <div className={isSearchField?"searchbar":"chat_messages_off"}>
             <input type="text" className='search_input' value={searchInput} onChange={handleSearch} />
             <Seperator width={25} />
             {
@@ -209,7 +210,7 @@ useEffect(()=>{
           </div>
           <Seperator height={25} />
         </div>
-        <div className='chats_scroll_container' style={{ width: '100%' }}>
+        <div className={isMobileView&& !isSearchField?'mob_scroll':'chats_scroll_container'} onClick={()=>setIsSearchField(false)} style={{ width: '100%' }}>
           {
             isLoading ?
               <div>
@@ -247,7 +248,7 @@ useEffect(()=>{
         {
 
           currentChat ?
-            <ChatBox setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={currentChat} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
+            <ChatBox setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={currentChat} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
             :
             searchedChat && !currentChat ?
               <div>

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { UserContext } from '../../App'
 import Seperator from '../Seperator'
 import { IonIcon } from '@ionic/react'
-import { chatbubblesOutline, ellipsisVertical } from 'ionicons/icons'
+import { chatbubblesOutline, ellipsisVertical,searchCircle } from 'ionicons/icons'
 import { exitOutline } from 'ionicons/icons'
 
 import './Tab.css'
@@ -15,6 +15,8 @@ const Tab = ({ logOut }) => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [isMobileView, setIsMobileView] = useState(false)
     const [isOption, setIsOption] = useState(false)
+    const [isSearchField,setIsSearchField] = useState(false)
+    const [isChatHeader,setIsChatHeader] = useState(true)
     const tabno = state.tab ? state.tab : 1
 
 
@@ -51,13 +53,13 @@ const Tab = ({ logOut }) => {
             {
                 isMobileView ?
                     <>
-                        <div className='top-panel' >
+                        <div className={isChatHeader?'top-panel':'chat_messages_off'} >
 
                             <Seperator height={'25px'} />
                             <div className="chatlist_header" >
                                 <h2 style={{ color: '#0bc097', margin: 0 }}>Chat App</h2>
                                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
+                                    <IonIcon onClick={()=>setIsSearchField(true)}  className='search_icon' style={{ height: 28, width: 28 }} icon={searchCircle} />
                                     <IonIcon onClick={() => setIsOption(!isOption)} className='search_icon' style={{ height: 22, width: 22 }} icon={ellipsisVertical} />
                                 </div>
                             </div>
@@ -125,7 +127,7 @@ const Tab = ({ logOut }) => {
             }
             <div className='tab-component' onClick={() => setIsOption(false)}>
                 <div className={tabno === 1 ? 'active-tab' : 'tab'} >
-                    <Chat windowWidth={windowWidth} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} />
+                    <Chat setIsChatHeader={setIsChatHeader} isSearchField={isSearchField} setIsSearchField={setIsSearchField} windowWidth={windowWidth} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} />
                 </div>
                 <div className={tabno === 2 ? 'active-tab' : 'tab'} >
                     {/* <Orders/> */}

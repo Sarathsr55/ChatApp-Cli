@@ -94,6 +94,11 @@
     height: calc(100vh - 146px);
     overflow-y: auto ;
 }
+.mob_scroll{
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow-y: auto ;
+}
 .chats_scroll_container::-webkit-scrollbar{
     width: 6px !important;
 }

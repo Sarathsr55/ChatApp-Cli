@@ -10,7 +10,7 @@ import Lottie from 'react-lottie'
 import animation from '../../Constants/animation'
 
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, ownerProfile, setOwnerProfile, isMobileView, setIsChatSelected, setCurrentChat }) => {
+const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, ownerProfile, setOwnerProfile, isMobileView, setIsChatSelected, setCurrentChat, setIsChatHeader }) => {
 
     const [userData, setUserData] = useState([])
     const token = localStorage.getItem('user')
@@ -203,6 +203,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                         <div onClick={()=>{
                             setIsChatSelected(false)
                             setCurrentChat(null)
+                            setIsChatHeader(true)
                         }}>
                 <IonIcon style={{ color: '#242526', cursor: 'pointer', height: 25, width: 25 }} icon={arrowUndo} />
                 </div>
