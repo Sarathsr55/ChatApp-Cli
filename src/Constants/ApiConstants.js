@@ -1,4 +1,4 @@
-const BACKEND_BASE_URL = 'https://chatapp-6l69.onrender.com'
+const BACKEND_BASE_URL = 'https://chatapplication-htk5.onrender.com'
 
 
 const BACKEND_API = {

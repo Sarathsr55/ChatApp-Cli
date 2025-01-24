@@ -261,7 +261,7 @@ useEffect(()=>{
 
         }
       </div>
-      <div className={isProfileOpen && isMobileView?"profiles_mob":isProfileOpen  ? "profiles" : ownerProfile ? "profiles": "display_off"}>
+      <div className={isProfileOpen && isMobileView?"profiles_mob" :isProfileOpen  ? "profiles" : ownerProfile ? "profiles": "display_off"}>
         <Profile isMobileView={isMobileView} chat={currentChat} currentUserId={userId} setIsProfileOpen={setIsProfileOpen} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} />
       </div>
     </div>
