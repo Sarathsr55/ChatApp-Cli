@@ -91,6 +91,12 @@ const Profile = ({ chat, currentUserId, setIsProfileOpen, ownerProfile, setOwner
     const getOwnerData = async () => {
       const ownerData = await UserService.getUserById(token, currentUserId)
       setOwner(ownerData?.data.data)
+      const new_pic = await ownerData?.data?.data?.img
+      if(new_pic){
+        localStorage.setItem('userData',JSON.stringify(ownerData?.data?.data))
+        dispatch({type:'PROFILE_IMG',payload:ownerData?.data?.data?.img});
+      }
+      
     }
     getOwnerData()
   }
@@ -142,10 +148,13 @@ const Profile = ({ chat, currentUserId, setIsProfileOpen, ownerProfile, setOwner
     }
     if(resultImg){
       const uploadDp = await AuthenticationService.updateDp(token,user)
+      console.log(uploadDp);
       
       if(uploadDp?.status === 200){
         setPopUp(false)
         toast('Updated successfully')
+        dispatch({type:'PROFILE_IMG',payload:resultImg})
+        
       }
     }
   }
@@ -161,7 +170,7 @@ const Profile = ({ chat, currentUserId, setIsProfileOpen, ownerProfile, setOwner
         ownerProfile ?
           <div className='own_profile_container' onClick={() => handleOuterClick()} >
             <div className="profile_img" onClick={() => handleProfile()}>
-              <img className='profile_img' style={{ borderRadius:'50%' }} src={state?.img ? state?.img : owner?.img ? owner?.img : images.AVATAR_LOGO} alt="" />
+              <img className='profile_img' style={{ borderRadius:'50%' }} src={owner?.img ? owner?.img :state?.img ? state?.img :  images.AVATAR_LOGO} alt="" />
               {
                 isProfileOption ?
                   <div className='profile_option' >
@@ -237,6 +246,7 @@ const Profile = ({ chat, currentUserId, setIsProfileOpen, ownerProfile, setOwner
                     <canvas
                       ref={canvasRef}
                       style={{
+                        display:'none',
                         border: '1px solid black',
                         objectFit:'contain',
                         width: 150,

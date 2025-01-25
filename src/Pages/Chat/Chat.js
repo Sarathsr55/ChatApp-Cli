@@ -165,10 +165,12 @@ const Chat = ({ ownerProfile, setOwnerProfile,windowWidth, isSearchField, setIsS
         setCurrentChat(obj)
       } else {
         setCurrentChat({ _id: '', members: member })
+        
       }
     })
     setSearchInput('')
-
+    setIsChatSelected(true)
+    setIsChatHeader(false)
   }
 
 useEffect(()=>{
@@ -227,6 +229,13 @@ useEffect(()=>{
                     No UserData found
                   </div>
                   :
+                  chats.length === 0?
+                  <div style={{width:'100%',height:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                    <div style={{width:'80%'}}>
+                    Find your friends by searching their email and start your chat
+                    </div>
+                  </div>
+                  :
                   chats.sort((a,b)=>{
                     var DatA = new Date(a.time)
                     var DatB = new Date(b.time)
@@ -252,7 +261,7 @@ useEffect(()=>{
             :
             searchedChat && !currentChat ?
               <div>
-                <ChatBox setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
+                <ChatBox setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
               </div>
               :
               <div>
