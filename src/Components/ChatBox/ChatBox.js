@@ -106,6 +106,8 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
 
 
     useEffect(() => {
+       console.log( recieveMessage);
+       
         if (recieveMessage != null) {
             if(userData?._id === recieveMessage?.currentUserId){
                setMessages([...messages, { senderId: recieveMessage?.currentUserId, text: recieveMessage?.message, time: recieveMessage?.time, date: recieveMessage?.date }])
@@ -150,7 +152,6 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
     }, [messages])
 
 
-    console.log(messages);
     
 
     const addMessage = async () => {
@@ -271,7 +272,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                                     <Lottie options={defaultOptions} height={50} width={50} />
                                 </div>
                                 :
-                                groups ?
+                                messages ?
                                     Object.keys(groups).map((date, index) => {
                                         return (
                                             <div key={index}>
