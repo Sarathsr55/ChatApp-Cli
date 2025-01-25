@@ -4,7 +4,7 @@ import { ChatService, MessageService, UserService } from '../../services'
 import images from '../../Constants/images'
 import Seperator from '../Seperator'
 import { IonIcon } from '@ionic/react'
-import { call, videocam, ellipsisHorizontal, happyOutline, paperPlaneOutline, arrowBackCircle, arrowUndo  } from 'ionicons/icons'
+import { call, videocam, ellipsisHorizontal, happyOutline, paperPlaneOutline, arrowBackCircle, arrowUndo } from 'ionicons/icons'
 import EmojiPicker from 'emoji-picker-react';
 import Lottie from 'react-lottie'
 import animation from '../../Constants/animation'
@@ -106,11 +106,9 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
 
 
     useEffect(() => {
-       console.log( recieveMessage);
-       
         if (recieveMessage != null) {
-            if(userData?._id === recieveMessage?.currentUserId){
-               setMessages([...messages, { senderId: recieveMessage?.currentUserId, text: recieveMessage?.message, time: recieveMessage?.time, date: recieveMessage?.date }])
+            if (userData?._id === recieveMessage?.currentUserId) {
+                setMessages([...messages, { senderId: recieveMessage?.currentUserId, text: recieveMessage?.message, time: recieveMessage?.time, date: recieveMessage?.date }])
             }
         }
     }, [recieveMessage])
@@ -140,7 +138,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                     setLoading(false)
                 }
             } else {
-                // setMessages([])
+                setMessages([])
                 setLoading(false)
             }
         }
@@ -152,7 +150,6 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
     }, [messages])
 
 
-    
 
     const addMessage = async () => {
         if (chat?._id === '') {
@@ -173,7 +170,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
 
             const messageResponse = await MessageService.AddMessage(chat?._id, currentUserId, message, token)
             console.log(messageResponse);
-            
+
             setMessages([...messages, { senderId: currentUserId, text: message, time: new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true }), date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) }])
             setmessage('')
             setShowEmoji(false)
@@ -201,19 +198,19 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
         <div className='chat_box_container'>
             <div className="chat_box_header" >
                 {
-                    isMobileView?
-                    <>
-                        <div onClick={()=>{
-                            setIsChatSelected(false)
-                            setCurrentChat(null)
-                            setIsChatHeader(true)
-                        }}>
-                <IonIcon style={{ color: '#242526', cursor: 'pointer', height: 25, width: 25 }} icon={arrowUndo} />
-                </div>
-                <Seperator width={5} />
-                    </>
-                :
-                ''
+                    isMobileView ?
+                        <>
+                            <div onClick={() => {
+                                setIsChatSelected(false)
+                                setCurrentChat(null)
+                                setIsChatHeader(true)
+                            }}>
+                                <IonIcon style={{ color: '#242526', cursor: 'pointer', height: 25, width: 25 }} icon={arrowUndo} />
+                            </div>
+                            <Seperator width={5} />
+                        </>
+                        :
+                        ''
                 }
                 <div className="profile_pic" onClick={() => handleProfile()}>
                     {
@@ -226,11 +223,11 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                 <Seperator width={15} />
                 {
                     loading ?
-                        <div style={{display:'flex',justifyContent:'flex-start'}}>
+                        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                             <Lottie options={defaultOptions3} height={40} width={140} />
                         </div>
                         :
-                        <div style={{display:'flex',alignItems:'center'}}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
                             <div className="user_header" onClick={() => handleProfile()}>
                                 <h4 style={{ margin: 0 }} >{userData?.username}</h4>
                                 <p style={{ margin: 0, fontSize: 12, color: 'grey' }}>{online ? 'online' : `last seen ${displayLastSeen} at ${lastSeen.time} `}</p>
@@ -272,53 +269,47 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                                     <Lottie options={defaultOptions} height={50} width={50} />
                                 </div>
                                 :
-                                messages ?
-                                    Object.keys(groups).map((date, index) => {
-                                        return (
-                                            <div key={index}>
-                                                <div style={{ display: 'flex', justifyContent: 'center' }} ><p style={{ fontSize: 12, background: 'white', padding: '2px 12px 2px 12px', width: 'fit-content', borderRadius: 5 }} >{date === todayDate ? 'Today' : date === yesterdatDate ? 'Yesterday' : date}</p></div>
-                                                {
-                                                    groups[date].map((obj, index) => {
-
-
-                                                        return (
-                                                            <div key={index} ref={scroll} >
-                                                                <div className={obj.senderId === currentUserId ? 'message own' : 'message'} >
-                                                                    <div className={obj.senderId === currentUserId ? "msg m-right" : "msg"}>
-                                                                        {obj.text}
-                                                                        <div className="msg_time">
-                                                                            <p style={{ margin: 0, fontSize: 10, color: (obj.senderId === currentUserId) ? 'white' : 'grey' }} >{obj.time}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <Seperator height={3} />
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
+                                messages.length === 0 && message ?
+                                    <div className={'message own'} >
+                                        <div className={"msg m-right"}>
+                                            {message}
+                                            <div className="msg_time">
+                                                <p style={{ margin: 0, fontSize: 10, color: 'white'}} >{new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true })}</p>
                                             </div>
-                                        )
-                                    })
+                                        </div>
+                                    </div>
                                     :
-                                    <div>
-                                        {
-                                            messages.map((obj,index)=>{
-                                                return(
-                                                    <div key={index} ref={scroll} >
-                                                                <div className={obj.senderId === currentUserId ? 'message own' : 'message'} >
-                                                                    <div className={obj.senderId === currentUserId ? "msg m-right" : "msg"}>
-                                                                        {obj.text}
-                                                                        <div className="msg_time">
-                                                                            <p style={{ margin: 0, fontSize: 10, color: (obj.senderId === currentUserId) ? 'white' : 'grey' }} >{obj.time}</p>
+                                    messages ?
+                                        Object.keys(groups).map((date, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <div style={{ display: 'flex', justifyContent: 'center' }} ><p style={{ fontSize: 12, background: 'white', padding: '2px 12px 2px 12px', width: 'fit-content', borderRadius: 5 }} >{date === todayDate ? 'Today' : date === yesterdatDate ? 'Yesterday' : date}</p></div>
+                                                    {
+                                                        groups[date].map((obj, index) => {
+
+
+                                                            return (
+                                                                <div key={index} ref={scroll} >
+                                                                    <div className={obj.senderId === currentUserId ? 'message own' : 'message'} >
+                                                                        <div className={obj.senderId === currentUserId ? "msg m-right" : "msg"}>
+                                                                            {obj.text}
+                                                                            <div className="msg_time">
+                                                                                <p style={{ margin: 0, fontSize: 10, color: (obj.senderId === currentUserId) ? 'white' : 'grey' }} >{obj.time}</p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+                                                                    <Seperator height={3} />
                                                                 </div>
-                                                                <Seperator height={3} />
-                                                            </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            )
+                                        })
+                                        :
+                                        <div>
+
+                                        </div>
                         }
                     </div>
                 </div>
