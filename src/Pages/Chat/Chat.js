@@ -229,13 +229,13 @@ useEffect(()=>{
                     No UserData found
                   </div>
                   :
-                  chats.length === 0?
-                  <div style={{width:'100%',height:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                    <div style={{width:'80%'}}>
-                    Find your friends by searching their email and start your chat
-                    </div>
-                  </div>
-                  :
+                  // chats.length === 0?
+                  // <div style={{width:'100%',height:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
+                  //   <div style={{width:'80%'}}>
+                  //   Find your friends by searching their email and start your chat
+                  //   </div>
+                  // </div>
+                  // :
                   chats.sort((a,b)=>{
                     var DatA = new Date(a.time)
                     var DatB = new Date(b.time)

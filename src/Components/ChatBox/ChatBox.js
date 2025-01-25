@@ -138,7 +138,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                     setLoading(false)
                 }
             } else {
-                setMessages([])
+                // setMessages([])
                 setLoading(false)
             }
         }
@@ -150,6 +150,8 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
     }, [messages])
 
 
+    console.log(messages);
+    
 
     const addMessage = async () => {
         if (chat?._id === '') {
@@ -264,12 +266,12 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                 <div className='msg_container' >
                     <div className="message_container">
                         {
-                            loading ?
+                            loading && messages.length === 0 ?
                                 <div style={{ display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
                                     <Lottie options={defaultOptions} height={50} width={50} />
                                 </div>
                                 :
-                                messages ?
+                                groups ?
                                     Object.keys(groups).map((date, index) => {
                                         return (
                                             <div key={index}>
@@ -298,7 +300,23 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                                     })
                                     :
                                     <div>
-
+                                        {
+                                            messages.map((obj,index)=>{
+                                                return(
+                                                    <div key={index} ref={scroll} >
+                                                                <div className={obj.senderId === currentUserId ? 'message own' : 'message'} >
+                                                                    <div className={obj.senderId === currentUserId ? "msg m-right" : "msg"}>
+                                                                        {obj.text}
+                                                                        <div className="msg_time">
+                                                                            <p style={{ margin: 0, fontSize: 10, color: (obj.senderId === currentUserId) ? 'white' : 'grey' }} >{obj.time}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <Seperator height={3} />
+                                                            </div>
+                                                )
+                                            })
+                                        }
                                     </div>
                         }
                     </div>

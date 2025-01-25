@@ -90,8 +90,8 @@ const Tab = ({ logOut }) => {
                                             <Seperator width={5} />
                                             Profile    
                                         </div>
-                                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',padding:'5px 0 5px 0' }}>
-                                            <IonIcon onClick={() => logOut()} size='large' icon={exitOutline} />
+                                        <div onClick={() => logOut()} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',padding:'5px 0 5px 0' }}>
+                                            <IonIcon  size='large' icon={exitOutline} />
                                             Lougout
                                         </div>
                                     </div>
