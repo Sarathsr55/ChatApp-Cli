@@ -138,7 +138,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                     setLoading(false)
                 }
             } else {
-                setMessages([])
+                // setMessages([])
                 setLoading(false)
             }
         }
@@ -230,7 +230,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                         <div style={{ display: 'flex', alignItems: 'center' }}>
                             <div className="user_header" onClick={() => handleProfile()}>
                                 <h4 style={{ margin: 0 }} >{userData?.username}</h4>
-                                <p style={{ margin: 0, fontSize: 12, color: 'grey' }}>{online ? 'online' : `last seen ${displayLastSeen} at ${lastSeen.time} `}</p>
+                                <p style={{ margin: 0, fontSize: 12, color: 'grey' }}>{online === null?'':online ? 'online' : `last seen ${displayLastSeen} at ${lastSeen.time} `}</p>
                             </div>
                             <div className="chat_options">
                                 <IonIcon style={{ color: 'grey', cursor: 'pointer', height: 20, width: 20 }} icon={call} />
@@ -269,16 +269,16 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                                     <Lottie options={defaultOptions} height={50} width={50} />
                                 </div>
                                 :
-                                messages.length === 0 && message ?
-                                    <div className={'message own'} >
-                                        <div className={"msg m-right"}>
-                                            {message}
-                                            <div className="msg_time">
-                                                <p style={{ margin: 0, fontSize: 10, color: 'white'}} >{new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true })}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    :
+                                // messages.length === 0 && message ?
+                                //     <div className={'message own'} >
+                                //         <div className={"msg m-right"}>
+                                //             {message}
+                                //             <div className="msg_time">
+                                //                 <p style={{ margin: 0, fontSize: 10, color: 'white'}} >{new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true })}</p>
+                                //             </div>
+                                //         </div>
+                                //     </div>
+                                //     :
                                     messages ?
                                         Object.keys(groups).map((date, index) => {
                                             return (

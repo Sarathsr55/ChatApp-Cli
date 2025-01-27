@@ -46,7 +46,7 @@ const Chat = ({ ownerProfile, setOwnerProfile,windowWidth, isSearchField, setIsS
 
   const forceUpdate = useCallback(async () => {
     userChats()
-  }, [])
+  }, [recieveMessage,sendMessage])
 
   
 
@@ -59,10 +59,13 @@ const Chat = ({ ownerProfile, setOwnerProfile,windowWidth, isSearchField, setIsS
    },[windowWidth])
 
   useEffect(() => {
+    
+    
     if(recieveMessage){
       forceUpdate()
-    }
-    else{
+    }else if(sendMessage){
+      forceUpdate()
+    }else{
       forceUpdate()
     }
     
@@ -99,6 +102,20 @@ const Chat = ({ ownerProfile, setOwnerProfile,windowWidth, isSearchField, setIsS
 
 
   const userChats = async () => {
+    // if(recieveMessage && userId === undefined){
+    //   const result = await ChatService.findChats(recieveMessage?.recieverId, token)
+    // if(result?.data?.chat){
+    //   const response = result?.data?.chat
+    // if(response.length > 0){
+    //   const sortedchat = response.sort((a,b)=>{
+    //     var DatA = new Date(a.time)
+    //     var DatB = new Date(b.time)
+    //     return DatB - DatA
+    //   })
+    //   setChats(sortedchat);
+    // }
+    // }
+    // }else{
     const result = await ChatService.findChats(userId, token)
     if(result?.data?.chat){
       const response = result?.data?.chat
@@ -111,6 +128,7 @@ const Chat = ({ ownerProfile, setOwnerProfile,windowWidth, isSearchField, setIsS
       setChats(sortedchat);
     }
     }
+  // }
   }
 
 
@@ -126,6 +144,8 @@ const Chat = ({ ownerProfile, setOwnerProfile,windowWidth, isSearchField, setIsS
       const chatMember = chat.members.find((member) => member !== userId)
       const online = onlineUsers.find((user) => user.userId === chatMember)
       return online ? true : false
+    }else if (chat === undefined){
+      return null
     }
   }
 
@@ -200,7 +220,7 @@ useEffect(()=>{
             <IonIcon className='search_icon' style={{ height: 22, width: 22 }} icon={ellipsisVertical} />
           </div>
           }
-          <div className={isSearchField?"searchbar":"chat_messages_off"}>
+          <div className={!isMobileView?'searchbar':isMobileView && isSearchField?"searchbar":"chat_messages_off"}>
             <input type="text" className='search_input' value={searchInput} onChange={handleSearch} />
             <Seperator width={25} />
             {
