@@ -132,4 +132,12 @@
 .borderless{
     border:none
 }
+.Popupbtn{
+    min-width: 80px;
+    min-height: 30px;
+    color: #0bc097;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 

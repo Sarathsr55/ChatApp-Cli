@@ -5,6 +5,8 @@ import images from '../../Constants/images'
 import Seperator from '../Seperator'
 import Lottie from 'react-lottie';
 import animation from '../../Constants/animation'
+import { IonIcon } from '@ionic/react'
+import {  ellipsisVertical } from 'ionicons/icons'
 
 const Conversation = ({ data, currentUserId, recieveMessage, sendMessage,setRecentChats }) => {
 
@@ -78,7 +80,7 @@ const Conversation = ({ data, currentUserId, recieveMessage, sendMessage,setRece
           </div>
           :
           <>
-            <div className="chat_content">
+            <div className="chat_content"  >
               <div className="chat_user">
                 <p style={{ margin: 0 }}>
                   {
@@ -90,6 +92,7 @@ const Conversation = ({ data, currentUserId, recieveMessage, sendMessage,setRece
                 <p style={{ margin: '2px 0 2px 0', fontSize: 13, color:'gray' }}>{messages[messages.length - 1]?.senderId === currentUserId ? 'You : ' : ''}{messages[messages.length - 1]?.text}</p>
               </div>
             </div>
+              
             <div className="chat_time">
               <p style={{ margin: 0, fontSize: 12, color: 'gray' }}>{messages[messages.length - 1]?.time}</p>
             </div>

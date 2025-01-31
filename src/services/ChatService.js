@@ -23,4 +23,14 @@ const createChat = async(members,token)=>{
     return result
 }
 
- export default {findChats,createChat}
+const deleteChat = async(_id)=>{
+    const id ={
+        _id : _id
+    }
+    
+    const result = await AuthRequest.delete(ApiConstants.BACKEND_API.BASE_API_URL+ApiConstants.BACKEND_API.CHATS+ApiConstants.BACKEND_API.DELETECHAT,{data:id})
+    
+    return result
+}
+
+ export default {findChats,createChat,deleteChat}

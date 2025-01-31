@@ -55,7 +55,9 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
     let yesterday = new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString('en-GB', { month: '2-digit', day: '2-digit', year: 'numeric' });
     let yesterdatDate = new Date(yesterday.split('/')[2], yesterday.split('/')[1] - 1, yesterday.split('/')[0]).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
-
+    useEffect(()=>{
+        setMessages([])
+    },[chat])
 
     useEffect(() => {
         if (userData?.lastseen) {

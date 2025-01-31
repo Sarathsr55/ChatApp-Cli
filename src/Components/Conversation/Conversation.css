@@ -27,3 +27,17 @@
     right: 15px;
     bottom: 23px;
 }
+.hover_option{
+    position: absolute;
+    width: 90%;
+    height: 100%;
+    color: rgb(240, 234, 234);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    top: 20px;
+}
+.hover_option:hover{
+    color: gray;
+}

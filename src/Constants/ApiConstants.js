@@ -15,7 +15,8 @@ const BACKEND_API = {
     GET_USER: '/get-user',
     GET_USER_BY_ID:'/getuserbyid',
     CHATS: '/chat',
-    MESSAGE: '/message'
+    MESSAGE: '/message',
+    DELETECHAT:'/deletechat'
 }
 
 export default {BACKEND_API}
