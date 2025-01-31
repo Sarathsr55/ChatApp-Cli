@@ -50,9 +50,8 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
   let delay = 2000;
   let startPress = null;
 
-  const mouseDown = (id)=>{
+  const mouseDown = ()=>{
     startPress = Date.now()
-    setIsChatOption(id)
   }
 
   const mouseUp = (id)=>{
@@ -314,13 +313,15 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
                     return DatB - DatA
                   }).map((obj, index) => {
                     return (
-                      <div style={{ position: 'relative' }} key={index} onClick={() => {
+                      <div style={{ position: 'relative' }} onTouchStart={isMobileView?()=>mouseDown():''} onTouchEnd={isMobileView?()=>mouseUp(obj._id):''} key={index} onClick={() => {
                         setCurrentChat(obj)
                         setOwnerProfile(false)
 
-                      }}>
+                      }
+                      
+                    }>
                         <Conversation isChatOption={isChatOption} setIsChatOption={setIsChatOption} setRecentChats={setRecentChats} sendMessage={sendMessage} recieveMessage={recieveMessage} data={obj} currentUserId={userId} token={token} />
-                        <div className='hover_option' onTouchStart={()=>mouseDown(id)}    >
+                        <div className='hover_option'     >
                           <div style={{ height: 24, width: 24, borderRadius: '50%', cursor: 'pointer' }} onClick={() => setIsChatOption(obj._id)}  >
                             <IonIcon icon={ellipsisVertical} style={{ height: 12 }} />
                           </div>
