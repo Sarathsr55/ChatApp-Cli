@@ -38,6 +38,10 @@
     align-items: flex-end;
     top: 20px;
 }
+.hover_option_mob{
+    color: grey;
+    z-index: 101;
+}
 .hover_option:hover{
     color: gray;
 }

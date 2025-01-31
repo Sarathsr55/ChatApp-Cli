@@ -14,6 +14,7 @@ import Profile from '../../Components/Profile/Profile'
 import Lottie from 'react-lottie';
 import animation from '../../Constants/animation'
 import useLongPress from '../../Components/useLongPress'
+import Repeatable from 'react-repeatable'
 
 
 const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIsSearchField, setIsChatHeader }) => {
@@ -50,17 +51,17 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
   let delay = 2000;
   let startPress = null;
 
-  const mouseDown = ()=>{
+  const mouseDown = () => {
     startPress = Date.now()
   }
 
-  const mouseUp = (id)=>{
-    if(Date.now() - startPress > delay){
+  const mouseUp = (id) => {
+    if (Date.now() - startPress > delay) {
       setIsChatOption(id)
     }
   }
 
- 
+
 
   const forceUpdate = useCallback(async () => {
     userChats()
@@ -280,7 +281,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
               searchData && searchInput ?
                 <div onClick={handleSearchedOutput}>
                   <Conversation isChatOption={isChatOption} setIsChatOption={setIsChatOption} setRecentChats={setRecentChats} sendMessage={sendMessage} recieveMessage={recieveMessage} data={searchData} currentUserId={userId} token={token} />
-                  <div className='hover_option'>
+                  <div className={isMobileView ? 'hover_option_mob' : 'hover_option'}>
                     <div style={{ height: 24, width: 24, borderRadius: '50%' }} onClick={() => setIsChatOption(searchData._id)}>
                       <IonIcon icon={ellipsisVertical} style={{ height: 12 }} />
                     </div>
@@ -313,13 +314,16 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
                     return DatB - DatA
                   }).map((obj, index) => {
                     return (
-                      <div style={{ position: 'relative' }} onTouchStart={isMobileView?()=>mouseDown():''} onTouchEnd={isMobileView?()=>mouseUp(obj._id):''} key={index} onClick={() => {
-                        setCurrentChat(obj)
-                        setOwnerProfile(false)
-
-                      }
-                      
-                    }>
+                      <Repeatable
+                        onHold={()=>{
+                          setIsChatOption(obj._id)
+                        }}
+                        onClick={() => {
+                          setCurrentChat(obj)
+                          setOwnerProfile(false)
+                          }}
+                      >
+                        <div style={{ position: 'relative' }} key={index} >
                         <Conversation isChatOption={isChatOption} setIsChatOption={setIsChatOption} setRecentChats={setRecentChats} sendMessage={sendMessage} recieveMessage={recieveMessage} data={obj} currentUserId={userId} token={token} />
                         <div className='hover_option'     >
                           <div style={{ height: 24, width: 24, borderRadius: '50%', cursor: 'pointer' }} onClick={() => setIsChatOption(obj._id)}  >
@@ -335,6 +339,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
                           }
                         </div>
                       </div>
+                      </Repeatable>
                     )
                   })
           }
