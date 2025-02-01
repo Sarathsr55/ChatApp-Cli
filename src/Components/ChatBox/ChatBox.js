@@ -10,7 +10,7 @@ import Lottie from 'react-lottie'
 import animation from '../../Constants/animation'
 
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, ownerProfile, setOwnerProfile, isMobileView, setIsChatSelected, setCurrentChat, setIsChatHeader }) => {
+const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, chats, setOwnerProfile, isMobileView, setIsChatSelected, setCurrentChat, setIsChatHeader }) => {
 
     const [userData, setUserData] = useState([])
     const token = localStorage.getItem('user')
@@ -48,7 +48,15 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
         rendererSettings: {
             preserveAspectRatio: 'xMidYMid slice'
         }
-    };
+    }
+    const sayHelloOption = {
+        loop:true,
+        autoplay:true,
+        animationData: animation.SAY_HELLO,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    }
 
     var today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })
     var todayDate = new Date(today.split('/')[2], today.split('/')[1] - 1, today.split('/')[0]).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -56,7 +64,10 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
     let yesterdatDate = new Date(yesterday.split('/')[2], yesterday.split('/')[1] - 1, yesterday.split('/')[0]).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
     useEffect(()=>{
-        setMessages([])
+        
+        if(chats.length > 1){
+            setMessages([])
+        }
     },[chat])
 
     useEffect(() => {
@@ -271,16 +282,12 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
                                     <Lottie options={defaultOptions} height={50} width={50} />
                                 </div>
                                 :
-                                // messages.length === 0 && message ?
-                                //     <div className={'message own'} >
-                                //         <div className={"msg m-right"}>
-                                //             {message}
-                                //             <div className="msg_time">
-                                //                 <p style={{ margin: 0, fontSize: 10, color: 'white'}} >{new Date().toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true })}</p>
-                                //             </div>
-                                //         </div>
-                                //     </div>
-                                //     :
+                                messages.length === 0  ?
+                                    <div style={{height:'100%',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+                                        <Lottie options={sayHelloOption} height={100} width={200} />
+                                        <h4 style={{margin:0,padding:'5px 15px'}}>say Hello</h4>
+                                    </div>
+                                    :
                                     messages ?
                                         Object.keys(groups).map((date, index) => {
                                             return (

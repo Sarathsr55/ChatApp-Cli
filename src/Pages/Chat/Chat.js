@@ -46,7 +46,16 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
     }
-  };
+  }
+
+  const chatAnimationOption = {
+    loop: true,
+    autoplay: true,
+    animationData: animation.START_CHAT,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  }
 
   let delay = 2000;
   let startPress = null;
@@ -131,6 +140,8 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
           return DatB - DatA
         })
         setChats(sortedchat);
+      }else if(response.length === 0){
+        setChats([])
       }
     } else {
       setChats([])
@@ -206,6 +217,8 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
       forceUpdate()
       setCurrentChat('')
       setSearchedChat('')
+      setIsChatSelected(false)
+      setIsChatHeader(true)
     }
   }
 
@@ -281,19 +294,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
               searchData && searchInput ?
                 <div onClick={handleSearchedOutput}>
                   <Conversation isChatOption={isChatOption} setIsChatOption={setIsChatOption} setRecentChats={setRecentChats} sendMessage={sendMessage} recieveMessage={recieveMessage} data={searchData} currentUserId={userId} token={token} />
-                  <div className={isMobileView ? 'hover_option_mob' : 'hover_option'}>
-                    <div style={{ height: 24, width: 24, borderRadius: '50%' }} onClick={() => setIsChatOption(searchData._id)}>
-                      <IonIcon icon={ellipsisVertical} style={{ height: 12 }} />
-                    </div>
-                    {
-                      isChatOption ?
-                        <div style={{ height: 200, width: 200, background: 'white', position: 'absolute', top: 20, zIndex: 5, right: 10 }}>
-
-                        </div>
-                        :
-                        ''
-                    }
-                  </div>
+                  
                 </div>
                 :
                 searchInput && !searchData ?
@@ -301,13 +302,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
                     No UserData found
                   </div>
                   :
-                  // chats.length === 0?
-                  // <div style={{width:'100%',height:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                  //   <div style={{width:'80%'}}>
-                  //   Find your friends by searching their email and start your chat
-                  //   </div>
-                  // </div>
-                  // :
+                  chats.length !==0?
                   chats.sort((a, b) => {
                     var DatA = new Date(a.time)
                     var DatB = new Date(b.time)
@@ -342,6 +337,11 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
                       </Repeatable>
                     )
                   })
+                  :
+                  <div style={{height:'100%',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+                    <Lottie options={chatAnimationOption} height={200} width={300} />
+                    <h4 style={{padding:'10px 25px',margin:0}}>Start your conversation by searching your friends email</h4>
+                  </div>
           }
         </div>
       </div>
@@ -349,11 +349,11 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
         {
 
           currentChat ?
-            <ChatBox setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={currentChat} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
+            <ChatBox chats={chats} setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={currentChat} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
             :
             searchedChat && !currentChat ?
               <div>
-                <ChatBox setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
+                <ChatBox chats={chats} setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
               </div>
               :
               <div>
