@@ -140,4 +140,9 @@
     border-radius: 8px;
     cursor: pointer;
 }
+.chat_box_back{
+    /* background-image: url(../../assets/images/WP.png);
+    height: 100%;
+    width: 100%; */
+}
 

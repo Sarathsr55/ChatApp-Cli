@@ -10,7 +10,7 @@ import Lottie from 'react-lottie'
 import animation from '../../Constants/animation'
 
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, chats, setOwnerProfile, isMobileView, setIsChatSelected, setCurrentChat, setIsChatHeader }) => {
+const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUsers, online, setIsProfileOpen, chats, setOwnerProfile, isMobileView, setIsChatSelected, setCurrentChat, setIsChatHeader, data }) => {
 
     const [userData, setUserData] = useState([])
     const token = localStorage.getItem('user')
@@ -133,7 +133,9 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, recieveMessage, onlineUs
 
     const senderData = () => {
         setLoading(true)
+        
         const userId = chat?.members.find((id) => id !== currentUserId)
+        
         const getUserData = async () => {
             const userdata = await UserService.getUserById(token, userId)
             setUserData(userdata?.data?.data)

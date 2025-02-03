@@ -36,6 +36,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
   const [isChatSelected, setIsChatSelected] = useState(false)
   const [isChatOption, setIsChatOption] = useState('')
   const [isDeletePopup, setIsDeletePopup] = useState('')
+  const [isDeleting,setIsDeleting] = useState(false)
   const token = localStorage.getItem('user')
   const socket = useRef()
 
@@ -54,6 +55,15 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
     animationData: animation.START_CHAT,
     rendererSettings: {
       preserveAspectRatio: 'xMidYMid slice'
+    }
+  }
+
+  const deletingAnimation = {
+    loop: true,
+    autoplay: true,
+    animationData: animation.CIRCLE_LOADING,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYmid slice'
     }
   }
 
@@ -197,12 +207,10 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
     // setCurrentChat({_id:'',members:[searchData?._id,userId]})
     chats.map(obj => {
       let member = [searchData?._id, userId]
-      console.log(member, obj?.members);
       if (obj?.members[0] == member[0] && obj?.members[1] == member[1]) {
         setCurrentChat(obj)
       } else {
         setCurrentChat({ _id: '', members: member })
-
       }
     })
     setSearchInput('')
@@ -211,8 +219,10 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
   }
 
   const confirmDelete = async (_id) => {
+    setIsDeleting(true)
     const result = await ChatService.deleteChat(_id)
     if (result) {
+      setIsDeleting(false)
       setIsDeletePopup('')
       forceUpdate()
       setCurrentChat('')
@@ -250,7 +260,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
             <h4>Are you Confirm to delete this Chat?</h4>
             <div style={{ width: 250, display: 'flex', justifyContent: 'space-around' }}>
               <button className='Popupbtn' onClick={() => setIsDeletePopup('')}>Cancel</button>
-              <button className='Popupbtn' style={{ background: '#0bc097', color: 'white' }} onClick={() => confirmDelete(isDeletePopup)}>Delete</button>
+              <button className='Popupbtn' style={{ background: '#0bc097', color: 'white' }} onClick={() => confirmDelete(isDeletePopup)}>{isDeleting?<Lottie options={deletingAnimation} height={40} width={40} />:'Delete'}</button>
             </div>
             <div onClick={() => setIsDeletePopup('')} style={{ position: 'absolute', top: 15, right: 20, height: 22, width: 22, cursor: 'pointer' }} >
               <IonIcon icon={close} />
@@ -284,7 +294,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
           </div>
           <Seperator height={25} />
         </div>
-        <div className={isMobileView && !isSearchField ? 'mob_scroll' : 'chats_scroll_container'} onClick={() => setIsSearchField(false)} style={{ width: '100%' }}>
+        <div  className={isMobileView && !isSearchField ? 'mob_scroll' : 'chats_scroll_container'} onClick={() => {setIsSearchField(false) }} style={{ width: '100%' }}>
           {
             isLoading ?
               <div>
@@ -345,7 +355,7 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
           }
         </div>
       </div>
-      <div className={isMobileView && !isChatSelected ? "chat_messages_off" : isChatSelected && isProfileOpen ? 'chat_messages_off' : "chat_messages"}>
+      <div className={isMobileView && !isChatSelected ? "chat_messages_off" : isChatSelected && isProfileOpen && isMobileView ? 'chat_messages_off' : "chat_messages"}>
         {
 
           currentChat ?
@@ -353,10 +363,10 @@ const Chat = ({ ownerProfile, setOwnerProfile, windowWidth, isSearchField, setIs
             :
             searchedChat && !currentChat ?
               <div>
-                <ChatBox chats={chats} setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
+                <ChatBox data={searchData} chats={chats} setIsChatHeader={setIsChatHeader} setCurrentChat={setCurrentChat} isMobileView={isMobileView} setIsChatSelected={setIsChatSelected} chat={{ _id: '', members: [searchData?._id, userId] }} currentUserId={userId} setSendMessage={setSendMessage} recieveMessage={recieveMessage} onlineUsers={onlineUsers} online={checkOnlineStatus(currentChat)} ownerProfile={ownerProfile} setOwnerProfile={setOwnerProfile} setIsProfileOpen={setIsProfileOpen} />
               </div>
               :
-              <div>
+              <div className='chat_box_back'>
                 Start conversation with friends...
               </div>
 
